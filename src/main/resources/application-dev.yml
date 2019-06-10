@@ -1,0 +1,14 @@
+servser:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  datasource:
+    username: ***
+    password: ***
+    url: jdbc:***
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.kirito.planmer
