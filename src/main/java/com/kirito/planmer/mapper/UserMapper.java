@@ -27,4 +27,9 @@ public interface UserMapper {
      * @return
      */
     User login(@Param("userName") String userName);
+
+    User getUserById(int id);
+
+    void  update(User record);
+
 }

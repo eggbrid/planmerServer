@@ -30,6 +30,11 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
 
     @Override
     public BaseBean add(TaskWithBLOBs task) {
+        List<TaskWithBLOBs> taskWithBLOBs = taskMapper.getTaskByUserId(task.getUserId(), System.currentTimeMillis());
+        if (taskWithBLOBs != null && taskWithBLOBs.size() > 0) {
+            return getErrorBean("您在该时间段里有计划了，还是专心完成一件事比较好哦");
+        }
+
         taskMapper.insert(task);
         return getSuccessBean(null);
     }
@@ -65,7 +70,7 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
                 if (taskInfo.getStatus() == 1 && (date.getTime() - taskInfo.getStartTime()) >= taskWithBLOB.getdTime()) {
                     taskInfo.setEndTime(taskInfo.getStartTime() + taskWithBLOB.getdTime());
                     taskInfo.setStatus(3);
-                }else if (taskInfo.getStatus()==1){
+                } else if (taskInfo.getStatus() == 1) {
                     taskInfo.setEndTime(date.getTime());
 
                 }
@@ -88,8 +93,6 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
         map.put("task", taskWithBLOB);
 
 
-
-
         SignInfo todaySignInfo = signInfoMapper.getSignInfoByUser(user_id, startTime.getTime(), endTime.getTime());
 
         Sign sign = signMapper.getUserSign(user_id);
@@ -99,14 +102,13 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
             sign.setUserId(user_id);
             signMapper.insert(sign);
             sign = signMapper.getUserSign(user_id);
-        }else{
-            if (todaySignInfo==null){
-                SignInfo yesSignInfo = signInfoMapper.getSignInfoByUser(user_id, startTime.getTime()-aDay, endTime.getTime()-aDay);
-                sign.setDays(yesSignInfo==null?0:sign.getDays());
+        } else {
+            if (todaySignInfo == null) {
+                SignInfo yesSignInfo = signInfoMapper.getSignInfoByUser(user_id, startTime.getTime() - aDay, endTime.getTime() - aDay);
+                sign.setDays(yesSignInfo == null ? 0 : sign.getDays());
                 signMapper.updateUserSign(sign);
             }
         }
-
 
 
         map.put("sign", sign);
@@ -121,7 +123,7 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
         TaskInfo taskInfo = taskInfoMapper.getTaskById(task_info_id);
 
         if (taskInfo != null) {
-            if (status<0||status>4){
+            if (status < 0 || status > 4) {
                 return getErrorBean("操作好像有误呢，刷新下试试");
 
             }
@@ -133,7 +135,7 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
                     }
 
                     if (taskInfo.getStatus() == 2) {
-                        taskInfo.setStartTime(date.getTime()-(taskInfo.getEndTime()-taskInfo.getStartTime()));
+                        taskInfo.setStartTime(date.getTime() - (taskInfo.getEndTime() - taskInfo.getStartTime()));
                         taskInfo.setEndTime(date.getTime());
                     }
                     taskInfo.setStatus(1);
@@ -146,11 +148,11 @@ public class TaskServiceImpl extends BaseImpl implements TaskService {
                     taskInfo.setEndTime(date.getTime());
                     taskInfo.setStatus(2);
                     taskInfoMapper.updateTaskInfo(taskInfo);
-                }else{
+                } else {
                     return getErrorBean("操作好像有误呢，刷新下试试");
 
                 }
-            }else{
+            } else {
                 taskInfo.setEndTime(date.getTime());
                 taskInfo.setStatus(status);
                 taskInfoMapper.updateTaskInfo(taskInfo);

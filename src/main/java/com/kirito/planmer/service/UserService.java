@@ -7,6 +7,7 @@ public interface UserService {
 
     public BaseBean<User> Login(String userName, String password);
     public BaseBean<User> serviceGetUser(String userName);
+    public BaseBean<User> regiester(String userName, String password,String invitationCode);
 
 
 }

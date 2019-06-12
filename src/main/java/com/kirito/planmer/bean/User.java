@@ -29,6 +29,26 @@ public class User implements Serializable {
 
     private String token;
 
+    private String invitationCode;
+
+    private int ivUserId;
+
+    public int getIvUserId() {
+        return ivUserId;
+    }
+
+    public void setIvUserId(int ivUserId) {
+        this.ivUserId = ivUserId;
+    }
+
+    public String getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
+    }
+
     public String getToken() {
         return token;
     }

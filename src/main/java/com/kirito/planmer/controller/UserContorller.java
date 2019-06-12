@@ -27,10 +27,15 @@ public class UserContorller {
         return userService.Login(userName, password);
     }
 
+    @RequestMapping("/register")
+    @ResponseBody
+    public BaseBean register(HttpServletRequest request, @RequestParam("userName") String userName, @RequestParam("passWord") String password,@RequestParam("invitationCode") String invitationCode) {
+        return userService.regiester(userName, password,invitationCode);
+    }
     @RequestMapping("/test")
     @ResponseBody
     public BaseBean login(HttpServletRequest request) {
-        return userService.Login("admin", "123456");
+        return userService.regiester("ceshi", "123456","L2Q2");
     }
 
 }

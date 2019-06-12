@@ -74,4 +74,28 @@ public class PLTokenUtil {
 
 
 
+    /**
+     * 生成签名,5min后过期
+     *
+
+     * @return 加密的token
+     */
+    public static String getIC(String userId) {
+        Algorithm algorithm = Algorithm.HMAC256("invitationCode");
+        // 附带username信息
+        return JWT.create()
+                .withAudience(userId)
+                .sign(algorithm);
+
+    }
+
+    public static String getUserIdByIC(String invitationCode) {
+        Algorithm algorithm = Algorithm.HMAC256("invitationCode");
+        // 附带username信息
+        return JWT.create()
+                .withAudience(invitationCode)
+                .sign(algorithm);
+
+    }
+
 }
